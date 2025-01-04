@@ -89,19 +89,18 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
       const savedQuestionIndex = await AsyncStorage.getItem('currentQuestionIndex');
       const savedWaterDropFill = await AsyncStorage.getItem('waterDropFill');
       const now = Date.now();
-
+  
       if (savedLastPlayed && now - parseInt(savedLastPlayed) < ONE_DAY_IN_MS) {
-        // Если мы уже играли «сегодня», восстанавливаем индекс вопроса
         setCurrentQuestionIndex(parseInt(savedQuestionIndex) ||  0);
       } else {
-        // Переходим на следующий вопрос
         const nextQuestionIndex = (parseInt(savedQuestionIndex) || 0) + 1;
         const newIndex = nextQuestionIndex % DAILY_QUESTIONS.length;
         setCurrentQuestionIndex(newIndex);
-
+  
         await AsyncStorage.setItem('currentQuestionIndex', `${newIndex}`);
         await AsyncStorage.setItem('lastPlayed', `${now}`);
-      }setWaterDropFill(parseInt(savedWaterDropFill) || 0);
+      }
+      setWaterDropFill(parseInt(savedWaterDropFill) || 0);
       setLastPlayed(savedLastPlayed ? parseInt(savedLastPlayed) : null);
     };
     initializeQuiz();

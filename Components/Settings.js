@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   View, 
   Text, 
@@ -6,15 +6,45 @@ import {
   TouchableOpacity, 
   ImageBackground, 
   SafeAreaView, 
-  ScrollView 
+  ScrollView,
+  Alert, // Import Alert for confirmation dialogs
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useAudio } from './AudioScript';
 import { useVibration } from './Vibration';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
-const SettingsScreen = ({ navigation }) => {
+const Settings = ({ navigation }) => {
   const { isMusicPlaying, setIsMusicPlaying, volume, setVolume } = useAudio();
   const { vibrationOn, setVibrationOn } = useVibration();
+
+  // Function to reset progress
+  const resetProgress = () => {
+    Alert.alert(
+      "Reset Progress",
+      "Are you sure you want to reset your progress? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Reset",
+          onPress: async () => {
+            try {
+              await AsyncStorage.setItem('waterDropFill', '0');
+              Alert.alert("Success", "Your progress has been reset.");
+              // Optionally, you can notify other components or update state here
+            } catch (error) {
+              console.error("Error resetting progress:", error);
+              Alert.alert("Error", "Failed to reset progress. Please try again.");
+            }
+          },
+          style: "destructive"
+        }
+      ]
+    );
+  };
 
   return (
     <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
@@ -62,6 +92,14 @@ const SettingsScreen = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          {/* Reset Progress Button */}
+          <TouchableOpacity
+            style={styles.resetButton}
+            onPress={resetProgress}
+          >
+            <Text style={styles.resetButtonText}>Reset Progress</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.exitButton}
@@ -150,6 +188,24 @@ const SettingsScreen = ({ navigation }) => {
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
+  resetButton: {
+    backgroundColor: '#E74C3C',
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    alignSelf: 'center',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  resetButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
   exitButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 20,
@@ -169,4 +225,4 @@ const SettingsScreen = ({ navigation }) => {
   },
 });
 
-export default SettingsScreen;
+export default Settings;
