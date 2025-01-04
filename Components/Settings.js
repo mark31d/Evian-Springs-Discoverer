@@ -1,0 +1,172 @@
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  ImageBackground, 
+  SafeAreaView, 
+  ScrollView 
+} from 'react-native';
+import Slider from '@react-native-community/slider';
+import { useAudio } from './AudioScript';
+import { useVibration } from './Vibration';
+
+const SettingsScreen = ({ navigation }) => {
+  const { isMusicPlaying, setIsMusicPlaying, volume, setVolume } = useAudio();
+  const { vibrationOn, setVibrationOn } = useVibration();
+
+  return (
+    <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <Text style={styles.title}>Settings</Text>
+
+          <View style={styles.setting}>
+            <Text style={styles.settingText}>Music Volume: {Math.round(volume * 100)}%</Text>
+            <Slider
+              style={styles.slider}
+              value={volume}
+              onValueChange={setVolume}
+              minimumValue={0}
+              maximumValue={1}
+              step={0.01}
+              minimumTrackTintColor="#5DADE2"
+              maximumTrackTintColor="#D6EAF8"
+              thumbTintColor="#3498DB"
+            />
+            <TouchableOpacity
+              onPress={() => setIsMusicPlaying(!isMusicPlaying)}
+              style={[
+                styles.toggleButton,
+                isMusicPlaying && styles.toggleButtonActive
+              ]}
+            >
+              <Text style={styles.toggleButtonText}>
+                {isMusicPlaying ? 'Music OFF' : 'Music ON'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.setting}>
+            <Text style={styles.settingText}>Vibration</Text>
+            <TouchableOpacity
+              onPress={() => setVibrationOn(!vibrationOn)}
+              style={[
+                styles.vibrationButton,
+                vibrationOn && styles.vibrationButtonActive
+              ]}
+            >
+              <Text style={styles.vibrationButtonText}>
+                {vibrationOn ? 'Vibration OFF' : 'Vibration ON'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={styles.exitButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.exitButtonText}>Return to Menu</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
+  );
+};const styles = StyleSheet.create({
+  background: { 
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#1B4F72',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  setting: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    padding: 15,
+    borderRadius: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    alignItems: 'center',
+  },
+  settingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#154360',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  toggleButton: {
+    marginTop: 10,
+    backgroundColor: '#2980B9',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  toggleButtonActive: {
+    backgroundColor: '#1B4F72',
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  vibrationButton: {
+    marginTop: 10,
+    backgroundColor: '#2980B9',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  vibrationButtonActive: {
+    backgroundColor: '#1B4F72',
+  },
+  vibrationButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  exitButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  exitButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#154360',
+    textAlign: 'center',
+  },
+});
+
+export default SettingsScreen;
