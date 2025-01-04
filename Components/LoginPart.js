@@ -81,21 +81,21 @@ const LoginPart = ({ navigation, route }) => {
     setLoginModalVisible(false);
 
     
-    navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'MainTabs',
-            
-              state: {
-                index: 0,
-                routes: [{ name: 'Menu' }], 
-              },
+   navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'MainTabs',
+            // Дополнительно, если нужно сразу открыть конкретную вкладку:
+            state: {
+              index: 0,
+              routes: [{ name: 'Menu' }], 
             },
-          ],
-        })
-      );
+          },
+        ],
+      })
+    );
   };
 
   return (

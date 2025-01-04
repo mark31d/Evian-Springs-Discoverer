@@ -139,7 +139,6 @@ screenOptions={{
   );
 }
 
-// Создаём корневой Stack Navigator
 const Stack = createStackNavigator();
 
 function RootStack() {
@@ -160,17 +159,14 @@ function RootStack() {
   );
 }
 
-// Создайте файл Results.js ниже и импортируйте его здесь
- // Убедитесь, что путь верный
 
-// Итоговое приложение
 export default function App() {
   const [loaderIsEnded, setLoaderIsEnded] = useState(false);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <VibrationProvider>
         <AudioProvider>
-          <UserProvider> {/* Оборачиваем приложение в UserProvider */}
+          <UserProvider> 
             <NavigationContainer>
               {!loaderIsEnded ? (
                 <Loader onEnd={() => setLoaderIsEnded(true)} />

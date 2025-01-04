@@ -1,4 +1,3 @@
-// AllAboutWater.js
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -12,6 +11,8 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native'; // Импортируем useFocusEffect
+
 const background = require('../assets/WaterBack.jpg');
 const closeIcon = require('../assets/x.png');
 
@@ -21,7 +22,7 @@ const waterInWildImg = require('../assets/02.jpg');
 const expertImg = require('../assets/03.jpg');
 
 // Иконка замка
-const lockedImg = require('../assets/lock.png'); 
+const lockedImg = require('../assets/lock.png');
 
 
 const initialTopics = [
@@ -228,153 +229,149 @@ Soups and Broths: Include liquid dishes in your diet, which can help you get add
   ];
   
 
+
 const { width } = Dimensions.get('window');
 
 const AllAboutWater = () => {
     const [topicsData, setTopicsData] = useState(initialTopics);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
-  const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
-  useEffect(() => {
-    // При маунте проверяем, не разблокирован ли топик
-    const checkExpertUnlocked = async () => {
-      try {
-        const isUnlocked = await AsyncStorage.getItem('expertUnlocked');
-        if (isUnlocked === 'true') {
-         
-          setTopicsData((prev) =>
-            prev.map((topic) =>
-              topic.id === 3 ? { ...topic, locked: false } : topic
-            )
-          );
-        }
-      } catch (err) {
-        console.log('Error reading expertUnlocked', err);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
+    const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
+
+    // Используем useFocusEffect для проверки при каждом фокусе экрана
+    useFocusEffect(
+      React.useCallback(() => {
+        const checkExpertUnlocked = async () => {
+          try {
+            const isUnlocked = await AsyncStorage.getItem('expertUnlocked');
+            setTopicsData((prev) =>
+              prev.map((topic) =>
+                topic.id === 3 ? { ...topic, locked: isUnlocked === 'true' ? false : true } : topic
+              )
+            );
+          } catch (err) {
+            console.log('Error reading expertUnlocked', err);
+          }
+        };
+        checkExpertUnlocked();
+      }, [])
+    );
+
+    const openTopic = (topicIndex) => {
+      const topic = topicsData[topicIndex];
+      if (topic.locked) {
+        alert('This topic is locked. Collect your daily bonus to unlock!');
+        return;
       }
+      setCurrentTopicIndex(topicIndex);
+      setCurrentArticleIndex(0);
+      setModalVisible(true);
     };
-    checkExpertUnlocked();
-  }, []);
- 
-  const openTopic = (topicIndex) => {
-    const topic = topicsData[topicIndex];
-    if (topic.locked) {
-      alert('This topic is locked. Collect your daily bonus to unlock!');
-      return;
-    }
-    setCurrentTopicIndex(topicIndex);
-    setCurrentArticleIndex(0);
-    setModalVisible(true);
-  };
 
-  // Закрыть модалку
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+    // Закрыть модалку
+    const closeModal = () => {
+      setModalVisible(false);
+    };
 
-  // Переключение статей
-  const goPrevArticle = () => {
-    const articles = topicsData[currentTopicIndex].articles;
-    setCurrentArticleIndex((prev) => (prev - 1 + articles.length) % articles.length);
-  };
-  const goNextArticle = () => {
-    const articles = topicsData[currentTopicIndex].articles;
-    setCurrentArticleIndex((prev) => (prev + 1) % articles.length);
-  };
+    // Переключение статей
+    const goPrevArticle = () => {
+      const articles = topicsData[currentTopicIndex].articles;
+      setCurrentArticleIndex((prev) => (prev - 1 + articles.length) % articles.length);
+    };
+    const goNextArticle = () => {
+      const articles = topicsData[currentTopicIndex].articles;
+      setCurrentArticleIndex((prev) => (prev + 1) % articles.length);
+    };
 
-  const currentTopic = topicsData[currentTopicIndex];
-  const currentArticle = currentTopic.articles[currentArticleIndex];
+    const currentTopic = topicsData[currentTopicIndex];
+    const currentArticle = currentTopic.articles[currentArticleIndex];
 
-  return (
-    <ImageBackground source={background} style={styles.bg}>
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Articles</Text>
+    return (
+      <ImageBackground source={background} style={styles.bg}>
+        <ScrollView style={styles.container}>
+          <Text style={styles.header}>Articles</Text>
 
-       
-        {topicsData.map((topic, idx) => {
-          const topicIsLocked = topic.locked;
-          return (
-            <TouchableOpacity
-              key={topic.id}
-              style={styles.topicCard}
-              onPress={() => openTopic(idx)}
-              activeOpacity={topicIsLocked ? 1 : 0.7}
-            >
-            
-              {topicIsLocked ? (
-                <Image
-                  source={lockedImg}
-                  style={styles.lockIconFullSize}
-                />
-              ) : (
-                <Image
-                  source={topic.image}
-                  style={styles.topicImage}
-                />
-              )}
-
-              <Text
-                style={[
-                  styles.topicTitle,
-                  topicIsLocked && styles.lockedText,
-                ]}
+          {topicsData.map((topic, idx) => {
+            const topicIsLocked = topic.locked;
+            return (
+              <TouchableOpacity
+                key={topic.id}
+                style={styles.topicCard}
+                onPress={() => openTopic(idx)}
+                activeOpacity={topicIsLocked ? 1 : 0.7}
               >
-                {topic.title}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}{/* Модальное окно на весь экран */}
-        <Modal visible={modalVisible} animationType="slide" transparent={false}>
-          <ImageBackground source={background} style={styles.modalFullScreen}>
-            {/* Кнопка закрытия */}
-            
-
-            {/* Прокрутка статьи */}
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-              <Image source={closeIcon} style={styles.closeIcon} />
-            </TouchableOpacity>
-            {currentArticle?.image && (
-    <Image
-      source={currentArticle.image}
-      style={
-        currentArticle.id === 301
-          ? styles.firstArticleImage
-          : styles.articleImage      // Дефолтный стиль
-      }
-    />
-  )}
-  <Text style={styles.articleTitle}>{currentArticle?.title}</Text>
-  <Text style={styles.articleText}>{currentArticle?.text}</Text>
-
-            
-
-            <View style={styles.navContainer}>
-              {currentArticle.id === 301 ? (
-                <TouchableOpacity
-                  style={styles.nextButton}
-                  onPress={() => setCurrentArticleIndex(1)}
+              
+                {topicIsLocked ? (
+                  <Image
+                    source={lockedImg}
+                    style={styles.lockIconFullSize}
+                  />
+                ) : (
+                  <Image
+                    source={topic.image}
+                    style={styles.topicImage}
+                  />
+                )}<Text
+                  style={[
+                    styles.topicTitle,
+                    topicIsLocked && styles.lockedText,
+                  ]}
                 >
-                  <Text style={styles.nextButtonText}>Go to the guide</Text>
-                </TouchableOpacity>
-              ) : (
-                <View style={styles.navArrows}>
-                  <TouchableOpacity style={styles.arrowButton} onPress={goPrevArticle}>
-                    <Text style={styles.arrowText}>{'<'}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.arrowButton} onPress={goNextArticle}>
-                    <Text style={styles.arrowText}>{'>'}</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-            </ScrollView>
-          </ImageBackground>
-        </Modal>
-      </ScrollView>
-    </ImageBackground>
-  );
-};
+                  {topic.title}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
 
+          {/* Модальное окно на весь экран */}
+          <Modal visible={modalVisible} animationType="slide" transparent={false}>
+            <ImageBackground source={background} style={styles.modalFullScreen}>
+              {/* Кнопка закрытия */}
+              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                <Image source={closeIcon} style={styles.closeIcon} />
+              </TouchableOpacity>
+
+              {/* Прокрутка статьи */}
+              <ScrollView contentContainerStyle={styles.scrollContent}>
+                {currentArticle?.image && (
+                  <Image
+                    source={currentArticle.image}
+                    style={
+                      currentArticle.id === 301
+                        ? styles.firstArticleImage
+                        : styles.articleImage      // Дефолтный стиль
+                    }
+                  />
+                )}
+                <Text style={styles.articleTitle}>{currentArticle?.title}</Text>
+                <Text style={styles.articleText}>{currentArticle?.text}</Text>
+
+                <View style={styles.navContainer}>
+                  {currentArticle.id === 301 ? (
+                    <TouchableOpacity
+                      style={styles.nextButton}
+                      onPress={() => setCurrentArticleIndex(1)}
+                    >
+                      <Text style={styles.nextButtonText}>Go to the guide</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View style={styles.navArrows}>
+                      <TouchableOpacity style={styles.arrowButton} onPress={goPrevArticle}>
+                        <Text style={styles.arrowText}>{'<'}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.arrowButton} onPress={goNextArticle}>
+                        <Text style={styles.arrowText}>{'>'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              </ScrollView>
+            </ImageBackground>
+          </Modal>
+        </ScrollView>
+      </ImageBackground>
+    );
+};
 export default AllAboutWater;
 
 const styles = StyleSheet.create({
@@ -549,3 +546,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+

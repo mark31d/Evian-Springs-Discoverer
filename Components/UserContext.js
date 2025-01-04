@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
     loadData();
   }, []);
 
-  // Сохранение данных в AsyncStorage при изменении состояний
+ 
   useEffect(() => {
     const saveData = async () => {
       try {
@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
     };
 
     saveData();
-  },balance);
+  },[balance]);
 
   return (
     <UserContext.Provider

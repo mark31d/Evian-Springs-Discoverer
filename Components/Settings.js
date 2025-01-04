@@ -7,18 +7,18 @@ import {
   ImageBackground, 
   SafeAreaView, 
   ScrollView,
-  Alert, // Import Alert for confirmation dialogs
+  Alert, // Импортируем Alert для диалогов подтверждения
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useAudio } from './AudioScript';
 import { useVibration } from './Vibration';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Импортируем AsyncStorage
 
-const Settings = ({ navigation }) => {
+const SettingsScreen = ({ navigation }) => {
   const { isMusicPlaying, setIsMusicPlaying, volume, setVolume } = useAudio();
   const { vibrationOn, setVibrationOn } = useVibration();
 
-  // Function to reset progress
+  // Функция для сброса прогресса
   const resetProgress = () => {
     Alert.alert(
       "Reset Progress",
@@ -32,9 +32,15 @@ const Settings = ({ navigation }) => {
           text: "Reset",
           onPress: async () => {
             try {
+              // Сбросить значение прогресса
               await AsyncStorage.setItem('waterDropFill', '0');
+              // Сбросить флаг разблокировки эксперта
+              await AsyncStorage.removeItem('expertUnlocked');
+              
               Alert.alert("Success", "Your progress has been reset.");
-              // Optionally, you can notify other components or update state here
+
+              // Опционально: Обновить состояние компонентов, если необходимо
+              // Например, если используется контекст или глобальное состояние
             } catch (error) {
               console.error("Error resetting progress:", error);
               Alert.alert("Error", "Failed to reset progress. Please try again.");
@@ -93,7 +99,7 @@ const Settings = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          {/* Reset Progress Button */}
+          {/* Кнопка сброса прогресса */}
           <TouchableOpacity
             style={styles.resetButton}
             onPress={resetProgress}
@@ -225,4 +231,4 @@ const Settings = ({ navigation }) => {
   },
 });
 
-export default Settings;
+export default SettingsScreen;

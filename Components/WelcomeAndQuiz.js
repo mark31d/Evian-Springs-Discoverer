@@ -63,7 +63,7 @@ const DAILY_QUESTIONS = [
 const POINTS_PER_QUESTION = Math.floor(100 / DAILY_QUESTIONS.length);
 
 // Ограничение на 1 раз в сутки (24 часа)
-const ONE_DAY_IN_MS = 100;
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000; // 86,400,000 миллисекунд
 
 const WelcomeAndQuiz = ({ navigation, route }) => {
   // ------ СТЕЙТЫ ------
@@ -82,6 +82,9 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
   // «Последняя игра»
   const [lastPlayed, setLastPlayed] = useState(null);
 
+  // Состояние для отслеживания, должен ли пользователь перейти на LoginPart
+  const [shouldNavigateToLogin, setShouldNavigateToLogin] = useState(false);
+
   // ------ ЛОГИКА ПРИ ЗАПУСКЕ ------
   useEffect(() => {
     const initializeQuiz = async () => {
@@ -89,15 +92,13 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
       const savedQuestionIndex = await AsyncStorage.getItem('currentQuestionIndex');
       const savedWaterDropFill = await AsyncStorage.getItem('waterDropFill');
       const now = Date.now();
-  
+
       if (savedLastPlayed && now - parseInt(savedLastPlayed) < ONE_DAY_IN_MS) {
-        setCurrentQuestionIndex(parseInt(savedQuestionIndex) ||  0);
+        setCurrentQuestionIndex(parseInt(savedQuestionIndex) || 0);
       } else {
         const nextQuestionIndex = (parseInt(savedQuestionIndex) || 0) + 1;
         const newIndex = nextQuestionIndex % DAILY_QUESTIONS.length;
-        setCurrentQuestionIndex(newIndex);
-  
-        await AsyncStorage.setItem('currentQuestionIndex', `${newIndex}`);
+        setCurrentQuestionIndex(newIndex);await AsyncStorage.setItem('currentQuestionIndex', `${newIndex}`);
         await AsyncStorage.setItem('lastPlayed', `${now}`);
       }
       setWaterDropFill(parseInt(savedWaterDropFill) || 0);
@@ -115,19 +116,22 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
 
   const handleContinueGuest = () => {
     closeAllModals();
-    // Если «сегодня» ещё не играли (или прошёл 1 день), открываем квиз
+
     const now = Date.now();
-    if (!lastPlayed || now - lastPlayed >= ONE_DAY_IN_MS) {
+    if (!lastPlayed  || now - lastPlayed >= ONE_DAY_IN_MS) {
       setDailyBonusModalVisible(true);
     } else {
-        navigation.navigate('MainTabs', { screen: 'Menu' });
+      navigation.navigate('MainTabs', { screen: 'Menu' });
     }
   };
 
   const handleLogInWelcome = () => {
     closeAllModals();
-    // Логика: открыть Daily Bonus или сразу перейти к логину
-    // Здесь открываем Daily Bonus:
+
+    // Устанавливаем флаг, что пользователь хочет войти
+    setShouldNavigateToLogin(true);
+
+    // Показываем Daily Bonus
     setDailyBonusModalVisible(true);
   };
 
@@ -154,7 +158,23 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
 
   const closeProgressModal = () => {
     closeAllModals();
-    navigation.navigate('MainTabs', { screen: 'Menu' });
+    if (shouldNavigateToLogin) {
+      // Сбрасываем флаг перед навигацией
+      setShouldNavigateToLogin(false);
+      navigation.navigate('LoginPart', { fromProfileButton: true })
+    } else {
+      navigation.navigate('MainTabs', { screen: 'Menu' });
+    }
+  };
+
+  const handleUnlockExpertTopic = async () => {
+    try {
+      // Запишем в AsyncStorage флаг, что экспертный топик разблокирован
+      await AsyncStorage.setItem('expertUnlocked', 'true');
+      alert('Expert Advice unlocked!');
+    } catch (err) {
+      console.log('Error setting expertUnlocked', err);
+    }
   };
 
   // ------ ВЕРСТКА ------
@@ -206,7 +226,14 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
                 <Text>{ans}</Text>
               </TouchableOpacity>
             ))}
-            <TouchableOpacity style={styles.button} onPress={handleAnswerQuestion}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                { backgroundColor: answerSelected !== null ? '#72c7c5' : '#ccc' },
+              ]}
+              onPress={handleAnswerQuestion}
+              disabled={answerSelected === null}
+            >
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
           </View>
@@ -221,33 +248,26 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
             <Text style={styles.subtitle}>
               Water drop is now {waterDropFill}% full!
             </Text>
+            {/* Изменяем текст кнопки в зависимости от выбора пользователя */}
             <TouchableOpacity style={styles.button} onPress={closeProgressModal}>
-            
-              <Text style={styles.buttonText}>Go to Menu</Text>
+              <Text style={styles.buttonText}>
+                {shouldNavigateToLogin ? 'Log In' : 'Go to Menu'}
+              </Text>
             </TouchableOpacity>
             {waterDropFill === 100 && (
-  <TouchableOpacity
-    style={[styles.button, { backgroundColor: '#72c7c5' }]}
-    onPress={handleUnlockExpertTopic} // Функция, которая сохранит в AsyncStorage «expertUnlocked»
-  >
-    <Text style={styles.buttonText}>Unlock Expert Advice</Text>
-  </TouchableOpacity>
-)}
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: '#72c7c5' }]}
+                onPress={handleUnlockExpertTopic} // Функция, которая сохранит в AsyncStorage «expertUnlocked»
+              >
+                <Text style={styles.buttonText}>Unlock Expert Advice</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </ImageBackground>
       </Modal>
     </View>
   );
 };
-const handleUnlockExpertTopic = async () => {
-    try {
-      // Запишем в AsyncStorage флаг, что экспертный топик разблокирован
-      await AsyncStorage.setItem('expertUnlocked', 'true');
-      alert('Expert Advice unlocked!');
-    } catch (err) {
-      console.log('Error setting expertUnlocked', err);
-    }
-  };
 export default WelcomeAndQuiz;
 
 const styles = StyleSheet.create({
