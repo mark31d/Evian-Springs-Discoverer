@@ -87,7 +87,7 @@ const LoginPart = ({ navigation, route }) => {
         routes: [
           {
             name: 'MainTabs',
-            // Дополнительно, если нужно сразу открыть конкретную вкладку:
+       
             state: {
               index: 0,
               routes: [{ name: 'Menu' }], 
@@ -104,7 +104,7 @@ const LoginPart = ({ navigation, route }) => {
       <Modal visible={loginModalVisible} animationType="none" transparent>
         <ImageBackground source={background} style={styles.fullScreenBackground}>
           <View style={styles.fullScreenContainer}>
-            <Text style={styles.loginTitle}>Login To Your Account</Text>
+            <Text style={styles.loginTitle}>Profile</Text>
             <Text style={styles.addPhotoText}>Add Photo</Text>
             <TouchableOpacity onPress={pickImage} style={{ marginBottom: 20 }}>
               <Image
@@ -122,7 +122,7 @@ const LoginPart = ({ navigation, route }) => {
             />
 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Login</Text>
+              <Text style={styles.buttonText}>Add Name</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleResetData}>
               <Text style={styles.buttonText}>Reset Data</Text>
@@ -130,18 +130,7 @@ const LoginPart = ({ navigation, route }) => {
             
           </View>
         </ImageBackground>
-      </Modal>{/* 
-        Если хотите открыть модалку «по кнопке» на самом экране
-        (вне модалки), можно добавить:
-        
-        <TouchableOpacity
-          style={[styles.button, { alignSelf: 'center', marginTop: 50 }]}
-          onPress={() => setLoginModalVisible(true)}
-        >
-          <Text style={styles.buttonText}>Open Login Modal</Text>
-        </TouchableOpacity>
-      
-      */}
+      </Modal>
     </View>
   );
 };
@@ -161,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   loginTitle: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#72c7c5',
     textAlign: 'center',
