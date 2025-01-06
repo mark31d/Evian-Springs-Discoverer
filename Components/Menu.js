@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,7 +31,7 @@ const Menu = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Фон (непрокручиваемый) */}
       <ImageBackground
         source={background}
@@ -83,7 +84,7 @@ const Menu = ({ navigation }) => {
 
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, ImageBackground, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, ImageBackground, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const About = () => {
@@ -11,6 +11,7 @@ const About = () => {
 
   return (
     <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+      <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           {/* Кнопка "Назад" */}
@@ -64,7 +65,9 @@ const About = () => {
             </Text>
           </View>
         </View>
+        
       </ScrollView>
+      </SafeAreaView>
     </ImageBackground>
   );
 };const styles = StyleSheet.create({
@@ -82,11 +85,8 @@ const About = () => {
     justifyContent: 'flex-start',
   },
   backButton: {
-    position: 'relative',
-    top: -5,
-    left: 150,
-    padding: 10,
-    zIndex: 1, // Обеспечивает, что кнопка "Назад" находится поверх других элементов
+    alignSelf: 'flex-end',
+    padding:8,
   },
   backIcon: {
     width: 50,
@@ -97,7 +97,7 @@ const About = () => {
     width: 200,
     height: 200,
     resizeMode: 'cover', // Используем 'cover' для заполнения контейнера
-    marginTop: 60, // Отступ сверху для размещения ниже кнопки "Назад"
+    marginTop: 20, // Отступ сверху для размещения ниже кнопки "Назад"
     marginBottom: 20,
     borderRadius: 25, // Скругление углов (половина размера для круглого изображения)
     borderWidth: 2,

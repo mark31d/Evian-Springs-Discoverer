@@ -9,6 +9,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  SafeAreaView
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
@@ -100,8 +101,9 @@ const WaterPurityCheck = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={background} style={styles.bg}>
+    <ImageBackground source={background} style={styles.bg}>
+    <SafeAreaView style={styles.container}>
+      
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.header}>Assessment of water purity</Text><View style={styles.pickerBlock}>
             <Text style={styles.label}>Water Color:</Text>
@@ -207,8 +209,9 @@ const WaterPurityCheck = () => {
             </View>
           </View>
         </Modal>
+        </SafeAreaView>
       </ImageBackground>
-    </View>
+ 
   );
 };
 const styles = StyleSheet.create({

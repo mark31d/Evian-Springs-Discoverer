@@ -10,7 +10,7 @@ import {
   Image,
   TextInput,
   Alert,
-
+SafeAreaView
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -295,8 +295,9 @@ const SourceMap = () => {
   };
   
   return (
-    <View style={styles.container}>
+   
       <ImageBackground source={background} style={styles.mainBackground}>
+         <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Natural Water Sources</Text>
 
 
@@ -329,6 +330,7 @@ const SourceMap = () => {
 
       
         <Modal visible={modalVisible} transparent animationType="slide">
+         
           <ImageBackground source={background} style={styles.modalBackground}>
             <ScrollView style={styles.modalContainer}>
             
@@ -454,8 +456,9 @@ const SourceMap = () => {
             </ScrollView>
           </ImageBackground>
         </Modal>
+        </SafeAreaView>
       </ImageBackground>
-    </View>
+    
   );
 };
 
@@ -545,7 +548,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 40,
     padding: 16,
-    backgroundColor: 'rgba(255,255,255,0.9)', // Полупрозрачный белый фон для модалки
+    
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
@@ -554,8 +557,8 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   closeIcon: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
   },
   modalContent: {
     flex: 1,
@@ -606,8 +609,9 @@ const styles = StyleSheet.create({
   navArrows: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 15,
-    paddingBottom: 10,
+    marginTop: 10,
+    marginBottom:10,
+    paddingBottom: 15,
   },
   arrowButton: {
     backgroundColor: '#72c7c5',

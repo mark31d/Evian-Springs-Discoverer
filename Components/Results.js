@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Alert, Share ,ImageBackground} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Alert, Share ,ImageBackground, SafeAreaView, ScrollView} from 'react-native';
 import { UserContext } from './UserContext'; // Импортируем контекст пользователя
 import { useNavigation } from '@react-navigation/native';
 // Пример списка других игроков
@@ -55,7 +55,7 @@ const Results = () => {
 
   return (
     <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
     <TouchableOpacity style={styles.backButton} onPress={()=> navigation.goBack()}>
                   <Image source={require('../assets/x.png')} style={styles.backIcon} />
                 </TouchableOpacity>
@@ -79,17 +79,15 @@ const Results = () => {
         <Text style={styles.shareButtonText}>Share</Text>
       </TouchableOpacity>
      
-    </View>
+    </SafeAreaView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   backButton: {
-    top:-8,
-    left:150,
-    padding: 10,
-   
+    alignSelf: 'flex-end',
+   padding:8,
   },
   backIcon: {
     width: 50,

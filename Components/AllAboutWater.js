@@ -8,6 +8,7 @@ import {
   Modal,
   ImageBackground,
   Dimensions,
+  SafeAreaView
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -289,6 +290,7 @@ const AllAboutWater = () => {
     return (
       <ImageBackground source={background} style={styles.bg}>
         <ScrollView style={styles.container}>
+          <SafeAreaView>
           <Text style={styles.header}>Articles</Text>
 
           {topicsData.map((topic, idx) => {
@@ -326,13 +328,14 @@ const AllAboutWater = () => {
           {/* Модальное окно на весь экран */}
           <Modal visible={modalVisible} animationType="slide" transparent={false}>
             <ImageBackground source={background} style={styles.modalFullScreen}>
-              {/* Кнопка закрытия */}
-              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <SafeAreaView>
+      
+              
+
+           <ScrollView contentContainerStyle={styles.scrollContent}>
+           <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                 <Image source={closeIcon} style={styles.closeIcon} />
               </TouchableOpacity>
-
-              {/* Прокрутка статьи */}
-              <ScrollView contentContainerStyle={styles.scrollContent}>
                 {currentArticle?.image && (
                   <Image
                     source={currentArticle.image}
@@ -366,8 +369,10 @@ const AllAboutWater = () => {
                   )}
                 </View>
               </ScrollView>
+              </SafeAreaView>
             </ImageBackground>
           </Modal>
+          </SafeAreaView>
         </ScrollView>
       </ImageBackground>
     );
@@ -479,10 +484,9 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   closeButton: {
-    position: 'absolute',
-    top: 25,
-    right: 10,
-    zIndex: 2,
+    alignSelf: 'flex-end',
+    
+  
   },
   closeIcon: {
     width: 50,
@@ -499,7 +503,7 @@ const styles = StyleSheet.create({
     height: 190,
     borderRadius: 12,
     marginBottom: 30,
-    marginTop: 90,
+    marginTop: 10,
     resizeMode: 'cover',
   },
   articleTitle: {

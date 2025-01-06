@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { CommonActions } from '@react-navigation/native';
 // Фон приложения
 const background = require('../assets/WaterBack.jpg');
 
@@ -65,7 +65,7 @@ const POINTS_PER_QUESTION = Math.floor(100 / DAILY_QUESTIONS.length);
 // Ограничение на 1 раз в сутки (24 часа)
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000; // 86,400,000 миллисекунд
 
-const WelcomeAndQuiz = ({ navigation, route }) => {
+const WelcomeAndQuiz = ({ navigation }) => {
   // ------ СТЕЙТЫ ------
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(true);
   const [dailyBonusModalVisible, setDailyBonusModalVisible] = useState(false);
@@ -121,7 +121,21 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
     if (!lastPlayed  || now - lastPlayed >= ONE_DAY_IN_MS) {
       setDailyBonusModalVisible(true);
     } else {
-      navigation.navigate('MainTabs', { screen: 'Menu' });
+        navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'MainTabs',
+             
+                  state: {
+                    index: 0,
+                    routes: [{ name: 'Menu' }], 
+                  },
+                },
+              ],
+            })
+          );
     }
   };
 
@@ -163,7 +177,21 @@ const WelcomeAndQuiz = ({ navigation, route }) => {
       setShouldNavigateToLogin(false);
       navigation.navigate('LoginPart', { fromProfileButton: true })
     } else {
-      navigation.navigate('MainTabs', { screen: 'Menu' });
+        navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'MainTabs',
+             
+                  state: {
+                    index: 0,
+                    routes: [{ name: 'Menu' }], 
+                  },
+                },
+              ],
+            })
+          );
     }
   };
 

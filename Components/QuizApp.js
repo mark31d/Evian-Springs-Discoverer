@@ -272,7 +272,7 @@ const QuizApp = () => {
                 </View>
               </View>
 
-              {/* Вопрос */}
+             
               <Text style={styles.questionText}>
                 {selectedQuestions[currentQuestion].text}
               </Text>{/* Варианты ответов */}

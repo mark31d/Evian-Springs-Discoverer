@@ -33,7 +33,7 @@ screenOptions={{
   headerShown: false,
   tabBarStyle: {
     backgroundColor: '#72c7c5',
-    height: 70, // Увеличенная высота панели вкладок
+    height: 80, // Увеличенная высота панели вкладок
     paddingBottom: 10,
     paddingTop: 5,
   },
