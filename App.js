@@ -16,6 +16,8 @@ import LoginPart from './Components/LoginPart';
 import QuizApp from './Components/QuizApp';
 import Results from './Components/Results';
 import About from './Components/About';
+import MapScreen from './Components/MapScreen';
+import FolderScreen from './Components/FolderScreen'
 // Дополнительные провайдеры и компоненты
 import Loader from './Components/LoaderScript';
 import { AudioProvider } from './Components/AudioScript';
@@ -155,6 +157,8 @@ function RootStack() {
       <Stack.Screen name="LoginPart" component={LoginPart} />
       <Stack.Screen name="Results" component={Results} />
       <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="FolderScreen" component={FolderScreen} />
+      <Stack.Screen name="MapScreen" component={MapScreen} />
     </Stack.Navigator>
   );
 }

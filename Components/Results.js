@@ -65,7 +65,7 @@ const Results = () => {
         <Text style={styles.balanceText}>{balance} </Text><Image source={require('../assets/coin.png')} style={styles.coinIcon} />
       </View>
 
-      {/* Список других игроков */}
+     
       <Text style={styles.title}>Leaderboard</Text>
       <FlatList
         data={players}

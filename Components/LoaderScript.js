@@ -40,7 +40,7 @@ const LoaderScript = ({ onEnd }) => {
             { opacity: appearingAnim }, 
           ]}
         >
-          Evian Springs Discoverer
+          Springs Discoverer
 
         </Animated.Text>
       </Animated.View>

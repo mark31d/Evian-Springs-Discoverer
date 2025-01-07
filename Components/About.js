@@ -27,7 +27,7 @@ const About = () => {
             <Text style={styles.title}>About Us</Text>
 
             <Text style={styles.paragraph}>
-              Welcome to the world of Evian Springs Discoverer! 🌊 Our app is your guide in the vast ocean of knowledge about water that enriches our lives. We aim to unveil the beauty of natural springs and provide insights to help you consume this invaluable resource wisely.
+              Welcome to the world of  Springs Discoverer! 🌊 Our app is your guide in the vast ocean of knowledge about water that enriches our lives. We aim to unveil the beauty of natural springs and provide insights to help you consume this invaluable resource wisely.
             </Text>
 
             <Text style={styles.subtitle}>Natural Springs Cards:</Text>
@@ -61,7 +61,7 @@ const About = () => {
             </Text>
 
             <Text style={styles.paragraph}>
-              With Evian Springs Discoverer, you can explore, learn, and enjoy every drop of water that enriches our lives. 🌍💧
+              With Springs Discoverer, you can explore, learn, and enjoy every drop of water that enriches our lives. 🌍💧
             </Text>
           </View>
         </View>

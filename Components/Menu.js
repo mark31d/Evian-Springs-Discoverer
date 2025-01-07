@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Фон, дефолтная аватарка и иконка воды
 const background = require('../assets/WaterBack.jpg');
 const defaultProfilePhoto = require('../assets/water.png');
 const waterImage = require('../assets/h2o.png');
@@ -54,7 +53,8 @@ const Menu = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Evian Springs Discoverer</Text>
+          <Text style={styles.title}>Springs Discoverer</Text>
+
           {/* Картинка воды над кнопками */}
           <Image source={waterImage} style={styles.waterImage} />
 
@@ -76,20 +76,31 @@ const Menu = ({ navigation }) => {
 
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
+              onPress={() => navigation.navigate('FolderScreen')}
+            >
+              <Text style={styles.buttonText}>Photo Album</Text>
+            </TouchableOpacity>
+
+            {/* Новая кнопка для карты */}
+            <TouchableOpacity
+              style={[styles.button, styles.largeButton]}
+              onPress={() => navigation.navigate('MapScreen')}
+            >
+              <Text style={styles.buttonText}>Sources Map</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, styles.largeButton]}
               onPress={() => navigation.navigate('About')}
             >
               <Text style={styles.buttonText}>About Us</Text>
             </TouchableOpacity>
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-export default Menu;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
   },
   profileButton: {
     position: 'absolute',
-    top: 20,
+    top: 5,
     right: 5,
     width: 70,
     height: 70,
@@ -122,10 +133,10 @@ const styles = StyleSheet.create({
     borderColor: '#72c7c5',
   },
   title: {
-    marginTop: 70,
+    marginTop: 20,
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 20,
+    marginBottom: 10,
     textAlign: 'center',
     color: '#055a5c',
   },
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#72c7c5',
+    backgroundColor: '#72c7c5', // цвет как в остальном меню
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
@@ -164,3 +175,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+export default Menu;
