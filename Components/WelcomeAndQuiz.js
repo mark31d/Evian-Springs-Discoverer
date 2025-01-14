@@ -63,8 +63,8 @@ const DAILY_QUESTIONS = [
 // сколько процентов добавлять за правильный ответ
 const POINTS_PER_QUESTION = Math.floor(100 / DAILY_QUESTIONS.length);
 
-// Было 24 часа, теперь 1 минута (60,000 мс)
-const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+
+const ONE_DAY_IN_MS = 24 * 60 * 60;
 
 const WelcomeAndQuiz = ({ navigation }) => {
   // ------ СТЕЙТЫ ------

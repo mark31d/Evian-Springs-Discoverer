@@ -11,14 +11,15 @@ import {
   Dimensions,
   Image,
   SafeAreaView,
+  
 } from 'react-native';
 import Draggable from 'react-native-draggable';
 import { UserContext } from './UserContext';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Импорт вопросов
 import hardQuestions from '../Components/hardQuestions';
 import easyQuestions from '../Components/easyQuestions';
-
+const TEN_SECONDS = 24 * 60 * 60;
 const QuizApp = () => {
     
     const [isShopVisible, setIsShopVisible] = useState(false);
@@ -32,6 +33,15 @@ const QuizApp = () => {
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [answers, setAnswers] = useState([]);
 
+const [dailyBonus, setDailyBonus] = useState(null); // Состояние для хранения бонуса
+const [showBonusModal, setShowBonusModal] = useState(false); // Состояние для отображения модального окна
+
+const getRandomBonus = () => {
+  const bonuses = ['Life', 'Hint', 'Coins'];
+  const randomBonus = bonuses[Math.floor(Math.random() * bonuses.length)];
+  setDailyBonus(randomBonus);
+  setShowBonusModal(true);
+};
   const selectedQuestions =
     difficulty === 'Difficult'
       ? hardQuestions.questions.flatMap((topic) => topic.questions)
@@ -198,7 +208,51 @@ const QuizApp = () => {
 
     setHints(prevHints => prevHints - 1);
   };
+  const applyBonus = () => {
+    if (dailyBonus === 'Life') {
+      setLives(lives + 1); // Добавить дополнительную жизнь
+    } else if (dailyBonus === 'Hint') {
+      setHints(hints + 1); // Добавить подсказку
+    } else if (dailyBonus === 'Coins') {
+      addBalance(100); // Добавить 100 монет
+    }
+  
+    setShowBonusModal(false); // Закрыть модальное окно
+  };
+  const checkBonusAvailability = async () => {
+    try {
+      const storedTime = await AsyncStorage.getItem('lastBonusTime');
+      const now = Date.now(); // Текущее время в миллисекундах
 
+      if (!storedTime) {
+        // Если еще ничего не сохраняли, сразу показываем бонус
+        getRandomBonus();
+        setShowBonusModal(true);
+        await AsyncStorage.setItem('lastBonusTime', now.toString());
+      } else {
+        const prevBonusTime = parseInt(storedTime, 10);
+        // Проверяем, прошло ли 10 секунд
+        if (now - prevBonusTime >= TEN_SECONDS) {
+          getRandomBonus();
+        setShowBonusModal(true);
+          await AsyncStorage.setItem('lastBonusTime', now.toString());
+        } else {
+         
+        }
+      }
+    } catch (error) {
+      console.error('Error checking bonus availability:', error);
+    }
+  };
+  const handleDifficultySelection = (level) => {
+    // Установить уровень сложности
+    setDifficulty(level);
+    checkBonusAvailability(); // Проверить, доступен ли бонус
+  };
+
+  useEffect(() => {
+    checkBonusAvailability(); // Проверка бонуса при загрузке компонента
+  }, []);
   const restartGame = () => {
     setDifficulty(null);
     setCurrentQuestion(0);
@@ -231,11 +285,11 @@ const QuizApp = () => {
           {!difficulty && (
             <View style={styles.welcomeContainer}>
               <Text style={styles.welcomeText}>Welcome to our quiz!</Text>
-              <TouchableOpacity style={styles.levelButton} onPress={() => setDifficulty('Easy')}>
-                <Text style={styles.levelText}>Easy level</Text>
+              <TouchableOpacity style={styles.levelButton} onPress={() => handleDifficultySelection('Easy')}>
+              <Text style={styles.levelText}>Easy level</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.levelButton} onPress={() => setDifficulty('Difficult')}>
-                <Text style={styles.levelText}>Difficult level</Text>
+              <TouchableOpacity style={styles.levelButton} onPress={() => handleDifficultySelection('Difficult')}>
+              <Text style={styles.levelText}>Difficult level</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -344,7 +398,7 @@ const QuizApp = () => {
             </View>
           )}
 
-          {/* Модальное окно "Game Over" */}
+         
           {gameOver && (
             <Modal
               animationType="slide"
@@ -383,7 +437,28 @@ const QuizApp = () => {
             </Modal>
             
           )}
-         
+         <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showBonusModal}
+        onRequestClose={() => setShowBonusModal(false)}
+      >
+        <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+          <View style={styles.modalcontent}>
+            <Text style={styles.gameOverText}>Daily Bonus</Text>
+            <Text style={styles.bonusText}>
+              You have a chance to receive one of the following bonuses:
+              {dailyBonus === 'Life' && <Text style={styles.bonusDescription}>1 Extra Life</Text>}
+              {dailyBonus === 'Hint' && <Text style={styles.bonusDescription}>1 Extra Hint</Text>}
+              {dailyBonus === 'Coins' && <Text style={styles.bonusDescription}>100 Coins</Text>}
+            </Text>
+            <TouchableOpacity style={styles.bonusButton} onPress={applyBonus}>
+              <Text style={styles.bonusButtonText}>Claim Bonus</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </Modal>
+
 
 <Modal
   animationType="slide"
@@ -428,6 +503,53 @@ const QuizApp = () => {
   );
 };
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalcontent: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    padding: 20,
+    borderRadius: 10,
+  },
+  gameOverText: {
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  bonusText: {
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  bonusDescription: {
+    fontSize: 16,
+    color: '#ffcc00',
+  },
+  bonusButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  bonusButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  levelButton: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#ff6347',
+    borderRadius: 5,
+  },
+  levelText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+
     image:{
         width:80,
         height:80,
@@ -443,7 +565,7 @@ const styles = StyleSheet.create({
         bottom: -16,
         right: -15,
         backgroundColor: '#72c7c5',
-        padding: 15,
+        padding: 12,
         borderRadius: 30,
         borderWidth: 2,
         borderColor: '#007f7d',
