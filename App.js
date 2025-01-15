@@ -68,7 +68,7 @@ screenOptions={{
 
       <Tab.Screen
         name="SourceMap"
-        component={SourceMap}
+        component={Menu}
         options={{
           tabBarLabel: 'Sources',
           tabBarIcon: ({ focused }) => (
@@ -86,7 +86,7 @@ screenOptions={{
 
       <Tab.Screen
         name="WaterPurityCheck"
-        component={WaterPurityCheck}
+        component={Menu}
         options={{
           tabBarLabel: 'Check',
           tabBarIcon: ({ focused }) => (
@@ -104,7 +104,7 @@ screenOptions={{
 
       <Tab.Screen
         name="AllAboutWater"
-        component={AllAboutWater}
+        component={Menu}
         options={{
           tabBarLabel: 'Articles',
           tabBarIcon: ({ focused }) => (
@@ -120,7 +120,7 @@ screenOptions={{
         }}
       /><Tab.Screen
         name="QuizApp"
-        component={QuizApp}
+        component={Menu}
         options={{
           tabBarLabel: 'Quiz',
           tabBarIcon: ({ focused }) => (
