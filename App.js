@@ -17,37 +17,36 @@ import QuizApp from './Components/QuizApp';
 import Results from './Components/Results';
 import About from './Components/About';
 import MapScreen from './Components/MapScreen';
-import FolderScreen from './Components/FolderScreen'
+import FolderScreen from './Components/FolderScreen';
+
 // Дополнительные провайдеры и компоненты
 import Loader from './Components/LoaderScript';
 import { AudioProvider } from './Components/AudioScript';
 import { VibrationProvider } from './Components/Vibration';
 import { UserProvider } from './Components/UserContext'; // Импортируем UserProvider
 
-// Определяем вкладки (Tab Navigator)
 const Tab = createBottomTabNavigator();
 
 function MainTabs() {
   return (
-   
-<Tab.Navigator
-screenOptions={{
-  headerShown: false,
-  tabBarStyle: {
-    backgroundColor: '#72c7c5',
-    height: 80, // Увеличенная высота панели вкладок
-    paddingBottom: 10,
-    paddingTop: 5,
-  },
-  tabBarActiveTintColor: '#fff',
-  tabBarInactiveTintColor: '#1B4F72',
-  tabBarLabelStyle: {
-    marginTop:10,
-    fontSize: 14, // Увеличенный размер текста меток
-    marginBottom: 5,
-  },
-}}
->
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#72c7c5',
+          height: 80,
+          paddingBottom: 10,
+          paddingTop: 5,
+        },
+        tabBarActiveTintColor: '#fff',
+        tabBarInactiveTintColor: '#1B4F72',
+        tabBarLabelStyle: {
+          marginTop: 10,
+          fontSize: 14,
+          marginBottom: 5,
+        },
+      }}
+    >
       <Tab.Screen
         name="Menu"
         component={Menu}
@@ -55,14 +54,21 @@ screenOptions={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={require('./assets/home.png')} // Оригинальное изображение
+              source={require('./assets/home.png')}
               style={{
-                width: 45, // Увеличенный размер иконки
+                width: 45,
                 height: 45,
-                opacity: focused ? 1 : 0.5, // Меняем прозрачность
+                opacity: focused ? 1 : 0.5,
               }}
             />
           ),
+        }}
+        // Переопределяем нажатие, чтобы не было перехода
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            console.log('Tab "Home" was pressed, but navigation is prevented.');
+          },
         }}
       />
 
@@ -73,14 +79,20 @@ screenOptions={{
           tabBarLabel: 'Sources',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={require('./assets/drinking-water.png')} // Оригинальное изображение
+              source={require('./assets/drinking-water.png')}
               style={{
                 width: 40,
                 height: 40,
-                opacity: focused ? 1 : 0.5, // Меняем прозрачность
+                opacity: focused ? 1 : 0.5,
               }}
             />
           ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            console.log('Tab "Sources" was pressed, but navigation is prevented.');
+          },
         }}
       />
 
@@ -91,52 +103,68 @@ screenOptions={{
           tabBarLabel: 'Check',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={require('./assets/clean.png')} // Оригинальное изображение
+              source={require('./assets/clean.png')}
               style={{
                 width: 40,
                 height: 40,
-                opacity: focused ? 1 : 0.5, // Меняем прозрачность
+                opacity: focused ? 1 : 0.5,
               }}
             />
           ),
         }}
-      />
-
-      <Tab.Screen
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            console.log('Tab "Check" was pressed, but navigation is prevented.');
+          },
+        }}
+      /><Tab.Screen
         name="AllAboutWater"
         component={AllAboutWater}
         options={{
           tabBarLabel: 'Articles',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={require('./assets/articles.png')} // Оригинальное изображение
+              source={require('./assets/articles.png')}
               style={{
                 width: 40,
                 height: 40,
-                opacity: focused ? 1 : 0.5, // Меняем прозрачность
+                opacity: focused ? 1 : 0.5,
               }}
             />
           ),
         }}
-      /><Tab.Screen
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            console.log('Tab "Articles" was pressed, but navigation is prevented.');
+          },
+        }}
+      />
+
+      <Tab.Screen
         name="QuizApp"
         component={QuizApp}
         options={{
           tabBarLabel: 'Quiz',
           tabBarIcon: ({ focused }) => (
             <Image
-              source={require('./assets/quiz.png')} // Оригинальное изображение
+              source={require('./assets/quiz.png')}
               style={{
-                width: 50, // Более крупная иконка для QuizApp
+                width: 50,
                 height: 50,
-                opacity: focused ? 1 : 0.7, // Меняем прозрачность
+                opacity: focused ? 1 : 0.7,
               }}
             />
           ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            console.log('Tab "Quiz" was pressed, but navigation is prevented.');
+          },
+        }}
       />
-
-     
     </Tab.Navigator>
   );
 }
@@ -163,14 +191,13 @@ function RootStack() {
   );
 }
 
-
 export default function App() {
   const [loaderIsEnded, setLoaderIsEnded] = useState(false);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <VibrationProvider>
         <AudioProvider>
-          <UserProvider> 
+          <UserProvider>
             <NavigationContainer>
               {!loaderIsEnded ? (
                 <Loader onEnd={() => setLoaderIsEnded(true)} />
