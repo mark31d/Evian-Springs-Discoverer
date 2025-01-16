@@ -62,21 +62,21 @@ const Menu = ({ navigation }) => {
           <View style={styles.menuBlock}>
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
-              onPress={() => navigation.navigate('Menu')}
+              onPress={() => navigation.navigate('Settings')}
             >
               <Text style={styles.buttonText}>Settings</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
-              onPress={() => navigation.navigate('Menu')}
+              onPress={() => navigation.navigate('Results')}
             >
               <Text style={styles.buttonText}>Results</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
-              onPress={() => navigation.navigate('Menu')}
+              onPress={() => navigation.navigate('FolderScreen')}
             >
               <Text style={styles.buttonText}>Photo Album</Text>
             </TouchableOpacity>
@@ -84,14 +84,14 @@ const Menu = ({ navigation }) => {
             {/* Новая кнопка для карты */}
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
-              onPress={() => navigation.navigate('Menu')}
+              onPress={() => navigation.navigate('MapScreen')}
             >
               <Text style={styles.buttonText}>Sources Map</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.largeButton]}
-              onPress={() => navigation.navigate('Menu')}
+              onPress={() => navigation.navigate('About')}
             >
               <Text style={styles.buttonText}>About Us</Text>
             </TouchableOpacity>
