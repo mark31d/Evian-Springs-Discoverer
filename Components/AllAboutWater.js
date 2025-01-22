@@ -14,7 +14,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native'; // Импортируем useFocusEffect
 
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 const closeIcon = require('../assets/x.png');
 
 // Три картинки (01.jpg, 02.jpg, 03.jpg)

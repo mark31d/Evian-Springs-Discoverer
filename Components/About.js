@@ -10,7 +10,7 @@ const About = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+    <ImageBackground source={require('../assets/back.png')} style={styles.background}>
       <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
@@ -27,7 +27,7 @@ const About = () => {
             <Text style={styles.title}>About Us</Text>
 
             <Text style={styles.paragraph}>
-              Welcome to the world of  Springs Discoverer! 🌊 Our app is your guide in the vast ocean of knowledge about water that enriches our lives. We aim to unveil the beauty of natural springs and provide insights to help you consume this invaluable resource wisely.
+              Welcome to the world of Evilen Springs Discoverer! 🌊 Our app is your guide in the vast ocean of knowledge about water that enriches our lives. We aim to unveil the beauty of natural springs and provide insights to help you consume this invaluable resource wisely.
             </Text>
 
             <Text style={styles.subtitle}>Natural Springs Cards:</Text>

@@ -89,10 +89,10 @@ const FolderScreen = ({ navigation }) => {
     setSelectedFolder(folder);
   };
 
-  // Если папка открыта — показываем изображения в ней:
+
   if (selectedFolder) {
     return (
-      <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.backgroundImage}>
+      <ImageBackground source={require('../assets/back.png')} style={styles.backgroundImage}>
         <SafeAreaView style={styles.container}>
           {selectedFolder.images.length === 0 ? (
             <Text style={styles.noImagesText}>No images added yet</Text>
@@ -125,7 +125,7 @@ const FolderScreen = ({ navigation }) => {
     );
   }// Иначе показываем список папок:
   return (
-    <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.backgroundImage}>
+    <ImageBackground source={require('../assets/back.png')} style={styles.backgroundImage}>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={folders}

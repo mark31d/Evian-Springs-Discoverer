@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 // Фон и дефолтная аватарка
 const defaultProfilePhoto = require('../assets/water.png');
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 
 const LoginPart = ({ navigation, route }) => {
   const [loginModalVisible, setLoginModalVisible] = useState(false);

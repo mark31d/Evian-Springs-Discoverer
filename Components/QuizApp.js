@@ -279,7 +279,7 @@ const getRandomBonus = () => {
     }
   };return (
    
-      <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+      <ImageBackground source={require('../assets/back.png')} style={styles.background}>
          <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           {!difficulty && (
@@ -406,7 +406,7 @@ const getRandomBonus = () => {
               visible={gameOver}
               onRequestClose={() => setGameOver(false)}
             >
-                <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+                <ImageBackground source={require('../assets/back.png')} style={styles.background}>
               <View style={styles.modalcontent}>
               <Image source={require('../assets/smiley.png')} style={styles.image} />
                 <Text style={styles.gameOverText}>You were wrong. You have nothing left</Text> 
@@ -425,10 +425,10 @@ const getRandomBonus = () => {
               visible={completed}
               onRequestClose={() => setCompleted(false)}
             >
-                <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+                <ImageBackground source={require('../assets/back.png')} style={styles.background}>
               <View style={styles.modalContainer}>
                 <Text style={styles.congratulationsText}>🎉 You completed the quiz!</Text>
-                <Text style={styles.scoreText}>Your score: {balance} 🪙</Text>
+                <Text style={styles.scoreText}>Your score: {balance} </Text>
                 <TouchableOpacity style={styles.playAgainButton} onPress={restartGame}>
                   <Text style={styles.playAgainText}>Play Again</Text>
                 </TouchableOpacity>
@@ -443,7 +443,7 @@ const getRandomBonus = () => {
         visible={showBonusModal}
         onRequestClose={() => setShowBonusModal(false)}
       >
-        <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+        <ImageBackground source={require('../assets/back.png')} style={styles.background}>
           <View style={styles.modalcontent}>
             <Text style={styles.gameOverText}>Daily Bonus</Text>
             <Text style={styles.bonusText}>
@@ -466,7 +466,7 @@ const getRandomBonus = () => {
   visible={isShopVisible}
   onRequestClose={() => setIsShopVisible(false)}
 >
-<ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+<ImageBackground source={require('../assets/back.png')} style={styles.background}>
   <View style={styles.modalOverlay}>
     
     <View style={styles.modalContainer}>
@@ -496,7 +496,6 @@ const getRandomBonus = () => {
   </ImageBackground>
 </Modal>
         </View>
-        
         </SafeAreaView>
       </ImageBackground>
 

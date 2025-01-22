@@ -110,7 +110,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('../assets/WaterBack.jpg')}
+      source={require('../assets/back.png')}
       style={styles.backgroundImage}
     >
       <SafeAreaView style={styles.safeArea}>

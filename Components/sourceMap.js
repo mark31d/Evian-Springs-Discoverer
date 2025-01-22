@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 
 
 const closeIcon = require('../assets/x.png');

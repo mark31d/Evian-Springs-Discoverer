@@ -53,7 +53,7 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+    <ImageBackground source={require('../assets/back.png')} style={styles.background}>
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.title}>Settings</Text>

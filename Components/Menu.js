@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 const defaultProfilePhoto = require('../assets/water.png');
 const waterImage = require('../assets/h2o.png');
 
@@ -53,7 +53,7 @@ const Menu = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Springs Discoverer</Text>
+          <Text style={styles.title}>Evilen Springs Discoverer</Text>
 
           {/* Картинка воды над кнопками */}
           <Image source={waterImage} style={styles.waterImage} />

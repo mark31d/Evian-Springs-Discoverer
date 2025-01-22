@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 
 // Фон приложения
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 
 // 7 вопросов
 const DAILY_QUESTIONS = [

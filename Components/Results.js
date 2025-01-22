@@ -54,7 +54,7 @@ const Results = () => {
   );
 
   return (
-    <ImageBackground source={require('../assets/WaterBack.jpg')} style={styles.background}>
+    <ImageBackground source={require('../assets/back.png')} style={styles.background}>
     <SafeAreaView style={styles.container}>
     <TouchableOpacity style={styles.backButton} onPress={()=> navigation.goBack()}>
                   <Image source={require('../assets/x.png')} style={styles.backIcon} />

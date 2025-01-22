@@ -14,7 +14,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 
 // Фон
-const background = require('../assets/WaterBack.jpg');
+const background = require('../assets/back.png');
 
 // Иконки
 const stopIcon = require('../assets/stop.png');  // Грязная вода

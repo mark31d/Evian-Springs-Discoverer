@@ -24,7 +24,7 @@ const LoaderScript = ({ onEnd }) => {
 
   return (
     <ImageBackground
-      source={require('../assets/WaterBack.jpg')} 
+      source={require('../assets/back.png')} 
       style={styles.backgroundImage}
     >
       <Animated.View
@@ -40,7 +40,7 @@ const LoaderScript = ({ onEnd }) => {
             { opacity: appearingAnim }, 
           ]}
         >
-          Springs Discoverer
+         Evilen Springs Discoverer
 
         </Animated.Text>
       </Animated.View>
